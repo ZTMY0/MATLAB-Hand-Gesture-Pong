@@ -1,5 +1,5 @@
 function matlab_pong()
-    %=== Config ===%
+    %== Config ==%
     cfg.paddle_width = 3;
     cfg.paddle_height = 12;
     cfg.paddle_speed = 2;
@@ -19,14 +19,14 @@ function matlab_pong()
 
     u = udp('127.0.0.1', 'LocalPort', 5005); fopen(u);
 
-    %=== Game Window ===%
+    %== Game Window ==%
     fig = figure('Name', 'Pong Game', 'NumberTitle', 'off', ...
         'MenuBar', 'none', 'Color', 'k', 'KeyPressFcn', @closeGame, ...
         'Position', cfg.fig_pos);
     axis(cfg.field); axis manual;
     set(gca, 'Color', 'k', 'XColor', 'none', 'YColor', 'none'); hold on;
 
-    %=== Img assets ===%
+    %== Img assets ==%
     ball_img = imread(fullfile(asset_path, 'custom_ball.png'));
     paddle_img = imread(fullfile(asset_path, 'sans_paddle.png'));
     bg_img = imread(fullfile(asset_path, 'undertale.png'));
@@ -35,7 +35,7 @@ function matlab_pong()
     h_bg = image('XData', [cfg.field(1) cfg.field(2)], 'YData', [cfg.field(3) cfg.field(4)], 'CData', bg_img);
     uistack(h_bg, 'bottom');
 
-    %=== Initial State ===%
+    %== Initial State ==%
     state.paddle1 = [5, 20];
     state.paddle2 = [95, 20];
     state.ball = [50, 30];
@@ -54,12 +54,12 @@ function matlab_pong()
     handles.score2 = text(55, 57, 'Player 2: 0', 'Color', 'w', 'FontSize', 14);
     handles.info = text(25, 2, 'Press ESC to Quit', 'Color', 'w', 'FontSize', 10);
 
-    %=== Start Timer ===%
+    %== Start Timer ==%
     game_timer = timer('ExecutionMode', 'fixedRate', 'Period', 0.013, ...
         'TimerFcn', @(~,~) updateGame());
     start(game_timer);
 
-    %=== Main Game Function ===%
+    %== Main Game Function ==%
     function updateGame()
         if ~isvalid(fig)
             stop(game_timer);
